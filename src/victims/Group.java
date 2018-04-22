@@ -36,7 +36,7 @@ public class Group {
             selectSender();
             senderDefined = true;
         }
-        List<String> recievers = new LinkedList<>();
+        List<String> recievers = new ArrayList<>();
         for (int i = 0; i < victims.size(); i++) {
             if(i != senderIndex) {
                 recievers.add(victims.get(i));

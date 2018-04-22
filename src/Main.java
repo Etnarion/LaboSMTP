@@ -54,21 +54,18 @@ public class Main {
                         + victims.getNumberOfVictims() / VictimsProtocol.MIN_GROUP_SIZE);
             }
 
-        // Select a random group from the list of groups
-        Random random = new Random();
-        int groupIndex = random.nextInt(groups.size());
-        Group group = groups.get(groupIndex);
-
         SmtpClient client = new SmtpClient();
 
         // Play the prank
         try {
             client.connect("localhost", 2525);
-            List<String> receivers = group.getRecievers();
-            MessageReader msgReader = new MessageReader("messages.txt");
-            Messages messages = new Messages(msgReader.readMessages());
-            Message rdmMsg = messages.getRandomMessage();
-            client.sendMail(group.getSender(), receivers, "Salut les copains", rdmMsg.getContent());
+            for (Group group : groups) {
+                List<String> receivers = group.getRecievers();
+                MessageReader msgReader = new MessageReader("messages.txt");
+                Messages messages = new Messages(msgReader.readMessages());
+                Message rdmMsg = messages.getRandomMessage();
+                client.sendMail(group.getSender(), receivers, "Salut les copains", rdmMsg.getContent());
+            }
             client.disconnect();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
