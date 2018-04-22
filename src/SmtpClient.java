@@ -1,4 +1,7 @@
-import protocol.SMTP;
+import message.Message;
+import message.MessageReader;
+import message.Messages;
+import protocol.SMTPProtocol;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,16 +20,16 @@ public class SmtpClient {
         socket = new Socket(server, port);
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         printWriter = new PrintWriter(socket.getOutputStream(), true);
-        printWriter.print(SMTP.SMTP_EHLO + " test\r\n");
+        printWriter.print(SMTPProtocol.SMTP_EHLO + " test\r\n");
         printWriter.flush();
         String line = reader.readLine();
-        while (!line.equals(SMTP.SMTP_OK)) {
+        while (!line.equals(SMTPProtocol.SMTP_OK)) {
             line = reader.readLine();
         }
     }
 
     public void disconnect() throws IOException {
-        printWriter.print(SMTP.SMTP_QUIT + newline);
+        printWriter.print(SMTPProtocol.SMTP_QUIT + newline);
         printWriter.flush();
         reader.close();
         printWriter.close();
@@ -34,27 +37,27 @@ public class SmtpClient {
     }
 
     public void sendMail(String from, ArrayList<String> receivers, String subject, String content) throws IOException {
-        printWriter.print(SMTP.SMTP_MAIL + from + newline);
+        printWriter.print(SMTPProtocol.SMTP_MAIL + from + newline);
         printWriter.flush();
         for (String to : receivers) {
-            printWriter.print(SMTP.SMTP_RCPT + to + newline);
+            printWriter.print(SMTPProtocol.SMTP_RCPT + to + newline);
             printWriter.flush();
         }
-        printWriter.print(SMTP.SMTP_DATA + newline);
+        printWriter.print(SMTPProtocol.SMTP_DATA + newline);
         printWriter.flush();
         reader.readLine();
-        printWriter.print(SMTP.SMTP_DATA_FROM + from + newline);
+        printWriter.print(SMTPProtocol.SMTP_DATA_FROM + from + newline);
         printWriter.flush();
         String line = "";
         for (String to : receivers) {
             line += to + ", ";
         }
         line = line.substring(0, line.length() - 2);
-        printWriter.print(SMTP.SMTP_DATA_TO + line + newline);
-        printWriter.print(SMTP.SMTP_DATA_FROM + from + newline);
-        printWriter.print(SMTP.SMTP_DATA_SUBJECT + subject + newline);
+        printWriter.print(SMTPProtocol.SMTP_DATA_TO + line + newline);
+        printWriter.print(SMTPProtocol.SMTP_DATA_FROM + from + newline);
+        printWriter.print(SMTPProtocol.SMTP_DATA_SUBJECT + subject + newline);
         printWriter.print("\n" + content + newline);
-        printWriter.print(SMTP.SMTP_DATA_END + newline);
+        printWriter.print(SMTPProtocol.SMTP_DATA_END + newline);
         printWriter.flush();
         reader.readLine();
     }
@@ -63,6 +66,9 @@ public class SmtpClient {
         SmtpClient client = new SmtpClient();
         client.connect("localhost", 2525);
         ArrayList<String> receivers = new ArrayList<>();
+        MessageReader msgReader = new MessageReader("messages.txt");
+        Messages messages = new Messages(msgReader.readMessages());
+        Message rdmMsg = messages.getRandomMessage();
         receivers.add("alain@vevey.ch");
         receivers.add("benoit@gmail.com");
         receivers.add("lucas@heig-vd.ch");

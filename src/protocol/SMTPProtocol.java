@@ -1,6 +1,6 @@
 package protocol;
 
-public class SMTP {
+public class SMTPProtocol {
     public static final String SMTP_MAIL = "MAIL FROM:";
     public static final String SMTP_EHLO = "EHLO";
     public static final String SMTP_RCPT = "RCPT TO:";

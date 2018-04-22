@@ -1,0 +1,14 @@
+START_MSG
+Example of message really funny
+Right?
+END_MSG
+START_MSG
+Another example but less funny
+END_MSG
+START_MSG
+This one is on the verge
+of being funny
+END_MSG
+START_MSG
+This message is approved by everyone
+END_MSG
