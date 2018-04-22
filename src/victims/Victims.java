@@ -17,6 +17,10 @@ public class Victims {
         return victims;
     }
 
+    public int getNumberOfVictims() {
+        return victims.size();
+    }
+
     public void readVictims(InputStream is) throws UnsupportedEncodingException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
