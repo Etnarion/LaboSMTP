@@ -10,12 +10,21 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * Class used to write mails threw an SMTP server
+ */
 public class SmtpClient {
     private final String newline = "\r\n";
     Socket socket;
     protected BufferedReader reader;
     protected PrintWriter printWriter;
 
+    /**
+     * Connect to server
+     * @param server Server address
+     * @param port Server port
+     * @throws IOException
+     */
     public void connect(String server, int port) throws IOException {
         socket = new Socket(server, port);
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -28,6 +37,11 @@ public class SmtpClient {
         }
     }
 
+
+    /**
+     * Disconnects the client
+     * @throws IOException
+     */
     public void disconnect() throws IOException {
         printWriter.print(SMTPProtocol.SMTP_QUIT + newline);
         printWriter.flush();
@@ -36,6 +50,14 @@ public class SmtpClient {
         socket.close();
     }
 
+    /**
+     * Send a mail threw SMTP server
+     * @param from Mail sender
+     * @param receivers ArrayList of receivers
+     * @param subject Mail subject
+     * @param content Mail content
+     * @throws IOException
+     */
     public void sendMail(String from, ArrayList<String> receivers, String subject, String content) throws IOException {
         printWriter.print(SMTPProtocol.SMTP_MAIL + from + newline);
         printWriter.flush();
@@ -61,6 +83,7 @@ public class SmtpClient {
         printWriter.flush();
         reader.readLine();
     }
+
 
     public static void main(final String[] args) throws IOException {
         SmtpClient client = new SmtpClient();
