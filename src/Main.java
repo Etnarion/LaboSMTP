@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     private static int requestNumberOfGroups() {
@@ -59,16 +60,20 @@ public class Main {
         // Play the prank
         try {
             client.connect("localhost", 2525);
+            MessageReader msgReader = new MessageReader("messages.txt");
+            Messages messages = new Messages(msgReader.readMessages());
             for (Group group : groups) {
                 List<String> receivers = group.getRecievers();
-                MessageReader msgReader = new MessageReader("messages.txt");
-                Messages messages = new Messages(msgReader.readMessages());
                 Message rdmMsg = messages.getRandomMessage();
                 client.sendMail(group.getSender(), receivers, "Salut les copains", rdmMsg.getContent());
+                //wait 100 miliseconds to let the server respond
+                TimeUnit.MILLISECONDS.sleep(100);
             }
             client.disconnect();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
