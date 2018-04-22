@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class used to write mails threw an SMTP server
@@ -58,7 +58,7 @@ public class SmtpClient {
      * @param content Mail content
      * @throws IOException
      */
-    public void sendMail(String from, ArrayList<String> receivers, String subject, String content) throws IOException {
+    public void sendMail(String from, List<String> receivers, String subject, String content) throws IOException {
         printWriter.print(SMTPProtocol.SMTP_MAIL + from + newline);
         printWriter.flush();
         for (String to : receivers) {
@@ -85,17 +85,17 @@ public class SmtpClient {
     }
 
 
-    public static void main(final String[] args) throws IOException {
-        SmtpClient client = new SmtpClient();
-        client.connect("localhost", 2525);
-        ArrayList<String> receivers = new ArrayList<>();
-        MessageReader msgReader = new MessageReader("messages.txt");
-        Messages messages = new Messages(msgReader.readMessages());
-        Message rdmMsg = messages.getRandomMessage();
-        receivers.add("alain@vevey.ch");
-        receivers.add("benoit@gmail.com");
-        receivers.add("lucas@heig-vd.ch");
-        client.sendMail("samuel.mayor@heig-vd.ch", receivers, "Salut les copains", "Chers amis, je me vois dans l'obligation de finir ce mail brutalement.\n Cordialement.");
-        client.disconnect();
-    }
+//    public static void main(final String[] args) throws IOException {
+//        SmtpClient client = new SmtpClient();
+//        client.connect("localhost", 2525);
+//        ArrayList<String> receivers = new ArrayList<>();
+//        MessageReader msgReader = new MessageReader("messages.txt");
+//        Messages messages = new Messages(msgReader.readMessages());
+//        Message rdmMsg = messages.getRandomMessage();
+//        receivers.add("alain@vevey.ch");
+//        receivers.add("benoit@gmail.com");
+//        receivers.add("lucas@heig-vd.ch");
+//        client.sendMail("samuel.mayor@heig-vd.ch", receivers, "Salut les copains", "Chers amis, je me vois dans l'obligation de finir ce mail brutalement.\n Cordialement.");
+//        client.disconnect();
+//    }
 }
