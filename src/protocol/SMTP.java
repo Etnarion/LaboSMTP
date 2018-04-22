@@ -10,4 +10,6 @@ public class SMTP {
     public static final String SMTP_DATA_CC = "Cc:";
     public static final String SMTP_DATA_SUBJECT = "Subject:";
     public static final String SMTP_DATA_END = "\r\n.\r\n";
+    public static final String SMTP_QUIT = "quit";
+    public static final String SMTP_OK = "250 Ok";
 }
