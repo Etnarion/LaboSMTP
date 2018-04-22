@@ -1,5 +1,8 @@
 package protocol;
 
+/**
+ * Protocol used when communicating with a SMTP server
+ */
 public class SMTPProtocol {
     public static final String SMTP_MAIL = "MAIL FROM:";
     public static final String SMTP_EHLO = "EHLO";
