@@ -1,11 +1,11 @@
 package victims;
 
+import protocol.VictimsProtocol;
+
 import java.io.*;
 import java.util.*;
 
 public class Victims {
-
-    private static final int MIN_GROUP_SIZE = 3;
 
     private ArrayList<String> victims;
 
@@ -31,7 +31,7 @@ public class Victims {
 
     public List<Group> formGroups(int nbGroups) throws FormingGroupsException {
 
-        if (victims.size()/MIN_GROUP_SIZE < nbGroups) {
+        if (victims.size()/ VictimsProtocol.MIN_GROUP_SIZE < nbGroups) {
             throw new FormingGroupsException("There is not enough of victims in the list");
         }
 
